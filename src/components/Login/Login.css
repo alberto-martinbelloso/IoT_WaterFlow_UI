@@ -1,0 +1,8 @@
+.login-form-container {
+    margin-top: 6rem!important;
+}
+
+.login-form-content{
+    display: grid;
+    padding: .7rem;
+}
