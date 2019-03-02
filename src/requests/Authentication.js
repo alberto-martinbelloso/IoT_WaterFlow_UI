@@ -1,19 +1,37 @@
 import axios from 'axios'
 
-const UM = axios.create({
-    baseURL: 'https://localhost/api/',
+export const US = axios.create({
+    baseURL: '',
     timeout: 1000,
+    headers: {'Content-Type': 'application/json'}
 });
 
 
+/**
+ *  HTTP POST request for login authentication
+ *
+ * @param username {string}
+ * @param password {string}
+ * @param callback {function(boolean,{access_token:string})}
+ */
 export const authenticateUser = (username, password, callback) => {
-    UM.post('/auth', {
+    US.post('/auth', {
         username,
         password
     })
         .then(response => {
-            callback(response.data)
+            callback(false, response.data)
         }).catch(err => {
-        console.log(err)
+        callback(true, err)
+    })
+};
+
+export const validateUser = (callback) => {
+    US.get('/protected', {headers: {Authorization: `JWT ${localStorage.getItem('token')}`}}
+    )
+        .then(response => {
+            callback(false)
+        }).catch(err => {
+        callback(true)
     })
 };

@@ -14,16 +14,14 @@ class Login extends React.Component {
     constructor() {
         super();
         this.state = {
-            name: 'Cat in the Hat',
-            age: '',
-            multiline: 'Controlled',
-            currency: 'EUR',
+            email: '',
+            password: ''
         };
         this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick() {
-        this.props.authenticationActions.log_in('', '')
+        this.props.authenticationActions.log_in(this.state.email, this.state.password)
     }
 
     handleChange = name => event => {
@@ -45,21 +43,23 @@ class Login extends React.Component {
                     <form className={'login-form-content'} noValidate autoComplete="off">
                         <TextField
                             id="standard-name"
-                            label="Name"
-                            value={this.state.name}
-                            onChange={this.handleChange('name')}
+                            label="Email"
+                            value={this.state.email}
+                            onChange={this.handleChange('email')}
                             margin="normal"
                         />
 
                         <TextField
                             id="standard-uncontrolled"
-                            label="Uncontrolled"
-                            defaultValue="foo"
+                            label="password"
                             margin="normal"
+                            type="password"
+                            value={this.state.password}
+                            onChange={this.handleChange('password')}
                         />
                         <Button variant="contained"
                                 color="primary"
-                            onClick={this.handleClick}>Log in</Button>
+                                onClick={this.handleClick}>Log in</Button>
                     </form>
                 </Grid>
             </Grid>)

@@ -24,6 +24,10 @@ class App extends React.Component {
 
     }
 
+    componentWillMount(){
+        this.props.authenticationActions.validate_token();
+    }
+
     render() {
         return (
             <Router>

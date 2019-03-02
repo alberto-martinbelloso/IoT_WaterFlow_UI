@@ -3,33 +3,18 @@ import {
     BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 import Typography from "@material-ui/core/Typography/Typography";
+import {bindActionCreators} from "redux";
+import * as billsActions from "../../../actions/Bills";
+import connect from "react-redux/es/connect/connect";
 
-const data = [
-    {
-        name: 'Page A', pv: 2400, amt: 2400,
-    },
-    {
-        name: 'Page B', pv: 1398, amt: 2210,
-    },
-    {
-        name: 'Page C', pv: 9800, amt: 2290,
-    },
-    {
-        name: 'Page D', pv: 3908, amt: 2000,
-    },
-    {
-        name: 'Page E', pv: 4800, amt: 2181,
-    },
-    {
-        name: 'Page F', pv: 3800, amt: 2500,
-    },
-    {
-        name: 'Page G', pv: 4300, amt: 2100,
-    },
-];
 
-export default class MonthBarChart extends PureComponent {
+class MonthBarChart extends PureComponent {
     static jsfiddleUrl = 'https://jsfiddle.net/alidingling/30763kr7/';
+
+    constructor(props) {
+        super();
+    }
+
 
     render() {
         return (
@@ -41,20 +26,36 @@ export default class MonthBarChart extends PureComponent {
                     <BarChart
                         width={500}
                         height={300}
-                        data={data}
+                        data={this.props.bills.bills}
                         margin={{
                             top: 5, right: 30, left: 20, bottom: 5,
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="name"/>
+                        <XAxis dataKey="time"/>
                         <YAxis/>
-                        <Tooltip/>
+                        <Tooltip  formatter={(value) => `${value} DKK`}/>
                         <Legend/>
-                        <Bar dataKey="pv" fill="#455559"/>
+                        <Bar dataKey="import" fill="#455559"/>
                     </BarChart>
                 </ResponsiveContainer>
             </div>
         );
     }
 }
+
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        bills: state.bills,
+        token: state.authentication.token,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        billsActions: bindActionCreators(billsActions, dispatch)
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MonthBarChart);

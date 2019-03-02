@@ -1,7 +1,8 @@
 import {
-    LOG_IN,
-    LOG_OUT
-} from '../actions/Authentication'
+    FETCH_WATERFLOW,
+    FETCH_WATERFLOW_CURRENT,
+    FETCH_WATERFLOW_PAST
+} from '../actions/waterflow'
 
 /**
  * This is a reducer, a pure function with (state, action) => state signature.
@@ -16,29 +17,28 @@ import {
  * project.
  */
 const initialState = {
-    username: '',
-    password: '',
-    authenticated: false,
-    token: localStorage.getItem('token')
+    consumption: [],
+    current_month: [],
+    past_month: []
 };
 
-export default function authentication(state = initialState, action) {
+export default function waterflow(state = initialState, action) {
     switch (action.type) {
-        case LOG_IN:
+        case FETCH_WATERFLOW:
             return {
                 ...state,
-                username: action.username,
-                password: action.password,
-                token: action.token,
-                authenticated: true
+                consumption: action.consumption,
             };
-        case LOG_OUT:
+        case FETCH_WATERFLOW_PAST:
             return {
                 ...state,
-                authenticated: false
-
+                past_month: action.consumption,
             };
-
+        case FETCH_WATERFLOW_CURRENT:
+            return {
+                ...state,
+                current_month: action.consumption,
+            };
         default:
             return state
     }

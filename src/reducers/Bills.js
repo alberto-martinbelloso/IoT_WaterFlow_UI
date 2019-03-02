@@ -1,7 +1,6 @@
 import {
-    LOG_IN,
-    LOG_OUT
-} from '../actions/Authentication'
+    FETCH_BILLS
+} from '../actions/Bills'
 
 /**
  * This is a reducer, a pure function with (state, action) => state signature.
@@ -16,29 +15,16 @@ import {
  * project.
  */
 const initialState = {
-    username: '',
-    password: '',
-    authenticated: false,
-    token: localStorage.getItem('token')
+    bills: [],
 };
 
-export default function authentication(state = initialState, action) {
+export default function bills(state = initialState, action) {
     switch (action.type) {
-        case LOG_IN:
+        case FETCH_BILLS:
             return {
                 ...state,
-                username: action.username,
-                password: action.password,
-                token: action.token,
-                authenticated: true
+                bills: action.bills,
             };
-        case LOG_OUT:
-            return {
-                ...state,
-                authenticated: false
-
-            };
-
         default:
             return state
     }

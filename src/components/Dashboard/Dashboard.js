@@ -4,10 +4,24 @@ import Grid from "@material-ui/core/Grid/Grid";
 import './Dashboard.css'
 import MonthBarChart from "../Charts/MonthBarChart/MonthBarChart";
 import Bills from "./Bills/Bills";
+import {bindActionCreators} from "redux";
+import * as devicesActions from "../../actions/Devices";
+import connect from "react-redux/es/connect/connect";
 
 class Dashboard extends React.Component {
     constructor() {
         super()
+    }
+
+    componentWillMount() {
+        Date.prototype.monthDays = function () {
+            let d = new Date(this.getFullYear(), this.getMonth() + 1, 0);
+            return d.getDate();
+        }
+    }
+
+    componentDidMount(){
+        this.props.devicesActions.fetch_alldevices(this.props.token)
     }
 
     render() {
@@ -33,5 +47,16 @@ class Dashboard extends React.Component {
         )
     }
 }
+const mapStateToProps = (state, ownProps) => {
+    return {
+        token: state.authentication.token,
+    };
+};
 
-export default Dashboard
+const mapDispatchToProps = (dispatch) => {
+    return {
+        devicesActions: bindActionCreators(devicesActions, dispatch)
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
