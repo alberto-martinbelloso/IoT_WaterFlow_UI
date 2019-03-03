@@ -27,8 +27,9 @@ class LineChart extends PureComponent {
 
     componentDidMount() {
 
-        if (this.props.devices.count > 0)
+        if (this.props.devices.count > 0){
             this.fetchData(this.props.devices.devices[0])
+        }
     }
 
     fetchData(device) {

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let baseUrl = '';
+let baseUrl = 'https://iotuserservice.azurewebsites.net';
 
 if (process.env.NODE_ENV === "production") {
     baseUrl = 'https://iotuserservice.azurewebsites.net'
@@ -35,8 +35,8 @@ export const validateUser = (callback) => {
     US.get('/protected', {headers: {Authorization: `JWT ${localStorage.getItem('token')}`}}
     )
         .then(response => {
-            callback(false)
+            callback(false, response.data)
         }).catch(err => {
-        callback(true)
+        callback(true, null)
     })
 };

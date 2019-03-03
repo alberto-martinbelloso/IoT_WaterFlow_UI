@@ -11,7 +11,6 @@ import {US} from './Authentication'
  * @param callback {function(boolean,{})}
  */
 export const getWaterFlowFromTo = (device, from, to = new Date().getTime(), token, callback) => {
-    console.log(token)
     US.get(`/waterflow/${device}`, {
         params: {
             from: from,

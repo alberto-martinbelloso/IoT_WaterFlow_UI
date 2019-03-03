@@ -1,7 +1,9 @@
 import * as authRequests from '../requests/Authentication'
+import {FETCH_DEVICES} from './Devices'
 
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
+export const FETCH_USER_INFO = 'FETCH_USER_INFO';
 
 export const log_in = (username, password) => {
     return (dispatch) => {
@@ -10,12 +12,17 @@ export const log_in = (username, password) => {
                 dispatch({
                     type: LOG_IN,
                     username,
-                    password,
                     token: resp.access_token
                 });
                 localStorage.setItem('token', resp.access_token);
-            } else {
-                window.alert('failed to auth')
+                authRequests.validateUser((err, data) => {
+                    if (!err) {
+                        dispatch({
+                            type: FETCH_USER_INFO,
+                            data
+                        });
+                    }
+                })
             }
         });
     }
@@ -23,11 +30,11 @@ export const log_in = (username, password) => {
 
 export const validate_token = () => {
     return (dispatch) => {
-        authRequests.validateUser((err) => {
+        authRequests.validateUser((err, data) => {
             if (!err) {
                 dispatch({
-                    type: LOG_IN,
-                    token: localStorage.getItem('token')
+                    type: FETCH_USER_INFO,
+                    data
                 });
             }
         })

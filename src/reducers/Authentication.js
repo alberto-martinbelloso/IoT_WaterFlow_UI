@@ -1,6 +1,7 @@
 import {
     LOG_IN,
-    LOG_OUT
+    LOG_OUT,
+    FETCH_USER_INFO
 } from '../actions/Authentication'
 
 /**
@@ -18,6 +19,7 @@ import {
 const initialState = {
     username: '',
     password: '',
+    role: 'user',
     authenticated: false,
     token: localStorage.getItem('token')
 };
@@ -28,7 +30,6 @@ export default function authentication(state = initialState, action) {
             return {
                 ...state,
                 username: action.username,
-                password: action.password,
                 token: action.token,
                 authenticated: true
             };
@@ -37,6 +38,13 @@ export default function authentication(state = initialState, action) {
                 ...state,
                 authenticated: false
 
+            };
+        case FETCH_USER_INFO:
+            return {
+                ...state,
+                authenticated: true,
+                username: action.data.username,
+                role: action.data.role,
             };
 
         default:
