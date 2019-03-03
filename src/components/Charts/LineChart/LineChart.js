@@ -8,30 +8,6 @@ import * as waterflowActions from "../../../actions/waterflow";
 import connect from "react-redux/es/connect/connect";
 import * as _ from 'lodash'
 
-const data = [
-    {
-        name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
-    },
-    {
-        name: 'Page C', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: 'Page D', uv: 2780, pv: 3908, amt: 2000,
-    },
-    {
-        name: 'Page E', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: 'Page F', uv: 2390, pv: 3800, amt: 2500,
-    },
-    {
-        name: 'Page G', uv: 3490, pv: 4300, amt: 2100,
-    },
-];
-
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ];
@@ -42,7 +18,9 @@ class LineChart extends PureComponent {
     constructor() {
         super();
         this.state = {
-            data: []
+            data: [],
+            currentMonth: new Date().getMonth(),
+            pastMonth: new Date().getMonth() === 0 ? 11 : new Date().getMonth() - 1
         }
 
     }
@@ -61,13 +39,13 @@ class LineChart extends PureComponent {
             new Date(current.getFullYear(), current.getMonth()).getTime(),
             current.getTime(),
             this.props.token,
-            '8h',
+            '1d',
             'current'
         );
 
         let current_month = current.getMonth();
         let past = new Date(current_month === 0 ? current.getFullYear() - 1 : current.getFullYear(),
-            current_month === 0 ? 12 : current_month - 1,
+            current_month === 0 ? 11 : current_month - 1,
             current_month - 1);
 
         this.props.waterflowActions.fetchMonthWaterFlow(
@@ -75,7 +53,7 @@ class LineChart extends PureComponent {
             past.getTime(),
             new Date(current.getFullYear(), current.getMonth()).getTime(),
             this.props.token,
-            '8h',
+            '1d',
             'past'
         )
     }
@@ -83,18 +61,18 @@ class LineChart extends PureComponent {
     componentWillReceiveProps(nextProps) {
         if (this.state.data.length === 0) {
             if (nextProps.current_month.length > 0) {
-                this.state.data = nextProps.current_month.map((data,i)=>{
-                    return {
-                        time: i,
-                        current: data.value,
-                    }
+                this.state.data = nextProps.current_month.map((data, i) => {
+                    let aux = {};
+                    aux['time'] = i;
+                    aux[monthNames[this.state.currentMonth]] = data.value;
+                    return aux
                 })
             } else {
-                this.state.data = nextProps.past_month.map((data,i)=>{
-                    return {
-                        time: i,
-                        past: data.value,
-                    }
+                this.state.data = nextProps.past_month.map((data, i) => {
+                    let aux = {};
+                    aux['time'] = i;
+                    aux[monthNames[this.state.pastMonth]] = data.value;
+                    return aux
                 })
             }
         } else {
@@ -108,12 +86,13 @@ class LineChart extends PureComponent {
                     v = nextProps.current_month[i].value;
 
                 res[i] = {
-                    time: i,
-                    past: nextProps.past_month[i].value,
-                    current: v
-                }
+                    time: i
+                };
+
+                res[i][monthNames[this.state.currentMonth]] = v;
+                res[i][monthNames[this.state.pastMonth]] = nextProps.past_month[i].value;
             }
-            this.state.data =res
+            this.state.data = res
         }
 
         if (this.props.devices.count === 0 && nextProps.devices.count > 0) {
@@ -124,7 +103,6 @@ class LineChart extends PureComponent {
 
 
     render() {
-        console.log(this.state.data)
         return (
             <div className={'chart-container'}>
                 <Typography variant="h5" style={{textAlign: 'center'}} gutterBottom>
@@ -142,10 +120,11 @@ class LineChart extends PureComponent {
                         <CartesianGrid strokeDasharray="3 3"/>
                         <XAxis dataKey="time"/>
                         <YAxis/>
-                        <Tooltip/>
+                        <Tooltip
+                            formatter={(value, name, props) => value}/>
                         <Legend/>
-                        <Line type="monotone" dataKey="current" stroke="#455559"/>
-                        <Line type="monotone" dataKey="past" stroke="#82ca9d" strokeDasharray="5 5"/>
+                        <Line type="monotone" dataKey={monthNames[this.state.currentMonth]} stroke="#455559"/>
+                        <Line type="monotone" dataKey={monthNames[this.state.pastMonth]} stroke="#82ca9d" strokeDasharray="5 5"/>
                     </ReLineChart>
                 </ResponsiveContainer>
             </div>

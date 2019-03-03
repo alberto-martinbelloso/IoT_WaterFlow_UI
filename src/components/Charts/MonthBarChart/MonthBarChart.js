@@ -32,9 +32,9 @@ class MonthBarChart extends PureComponent {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="time"/>
+                        <XAxis dataKey="Month"/>
                         <YAxis/>
-                        <Tooltip  formatter={(value) => `${value} DKK`}/>
+                        <Tooltip formatter={(value) => `${value} DKK`}/>
                         <Legend/>
                         <Bar dataKey="import" fill="#455559"/>
                     </BarChart>

@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
 }
 export const US = axios.create({
     baseURL: baseUrl,
-    timeout: 1000,
+    timeout: 10000,
     headers: {'Content-Type': 'application/json'}
 });
 

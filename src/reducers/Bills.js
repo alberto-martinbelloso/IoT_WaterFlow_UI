@@ -14,6 +14,11 @@ import {
  * follows a different convention (such as function maps) if it makes sense for your
  * project.
  */
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
 const initialState = {
     bills: [],
 };
@@ -21,9 +26,13 @@ const initialState = {
 export default function bills(state = initialState, action) {
     switch (action.type) {
         case FETCH_BILLS:
+            let aux = action.bills.map(bill => {
+                bill['Month'] = monthNames[new Date(bill.date).getMonth()];
+                return bill
+            });
             return {
                 ...state,
-                bills: action.bills,
+                bills: aux,
             };
         default:
             return state
