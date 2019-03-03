@@ -24,7 +24,7 @@ class Alarms extends React.Component {
         return (
             <div className={'alarms-container'}>
                 <Typography variant="h5" style={{paddingBottom: '10px'}} gutterBottom>
-                    Billing History
+                    Alarms History
                 </Typography>
                 <Paper>
                     <Table>

@@ -2,10 +2,9 @@ import axios from 'axios'
 
 let baseUrl = '';
 
-if (process.env.NODE_ENV === 'production') {
-    baseUrl = process.env.USER_SERVICE
+if (process.env.NODE_ENV === "production") {
+    baseUrl = 'https://iotuserservice.azurewebsites.net'
 }
-
 export const US = axios.create({
     baseURL: baseUrl,
     timeout: 1000,
