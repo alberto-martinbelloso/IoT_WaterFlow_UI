@@ -32,23 +32,23 @@ class Bills extends React.Component {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Bills</TableCell>
-                                <TableCell align="right">Date</TableCell>
-                                <TableCell align="right">Import (DKK)</TableCell>
-                                <TableCell align="right">Consumption</TableCell>
-                                <TableCell align="right">Price (per liter)</TableCell>
+                                <TableCell>User Name</TableCell>
+                                <TableCell align="center">Date</TableCell>
+                                <TableCell align="center">Import (DKK)</TableCell>
+                                <TableCell align="center">Consumption</TableCell>
+                                <TableCell align="center">Price (per liter)</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.props.bills.bills.map((row, id) => (
                                 <TableRow key={id} className={'bills-row'}>
                                     <TableCell component="th" scope="row">
-                                        {id}
+                                        {row.username}
                                     </TableCell>
-                                    <TableCell align="right">{row.date}</TableCell>
-                                    <TableCell align="right">{row.import}</TableCell>
-                                    <TableCell align="right">{row.waterflow}</TableCell>
-                                    <TableCell align="right">{row.price}</TableCell>
+                                    <TableCell align="center">{new Date(row.date).toDateString()}</TableCell>
+                                    <TableCell align="center">{row.import}</TableCell>
+                                    <TableCell align="center">{row.waterflow}</TableCell>
+                                    <TableCell align="center">{row.price}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
