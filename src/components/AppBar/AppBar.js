@@ -15,6 +15,8 @@ import './AppBar.css';
 
 import {connect} from "react-redux";
 import {Link} from 'react-router-dom'
+import {bindActionCreators} from "redux";
+import * as AuthenticationActions from "../../actions/Authentication";
 
 const styles = theme => ({
     root: {
@@ -89,6 +91,12 @@ class PrimaryAppBar extends React.Component {
     handleDashboard(){
         this.props.history.push('/dashboard');
     }
+
+    handleLogOut(){
+        localStorage.removeItem('token')
+        this.props.AuthenticationActions.log_out()
+    }
+
     render() {
 
         const {anchorEl, mobileMoreAnchorEl} = this.state;
@@ -111,6 +119,11 @@ class PrimaryAppBar extends React.Component {
                     onClick={this.handleMenuClose}
                     component={Link} to="/bills">
                     My bills
+                </MenuItem>
+                <MenuItem
+                    onClick={this.handleLogOut}
+                    component={Link} to="/">
+                    Log out
                 </MenuItem>
             </Menu>
         );
@@ -135,6 +148,11 @@ class PrimaryAppBar extends React.Component {
                         <AccountCircle/>
                     </IconButton>
                     <p>Profile</p>
+                </MenuItem>
+                <MenuItem
+                    onClick={this.handleLogOut}
+                    component={Link} to="/">
+                    Log out
                 </MenuItem>
             </Menu>
         );
@@ -194,4 +212,10 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, null)(withStyles(styles)(PrimaryAppBar)))
+const mapDispatchToProps = (dispatch) => {
+    return {
+        AuthenticationActions: bindActionCreators(AuthenticationActions, dispatch)
+    }
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PrimaryAppBar)))

@@ -40,7 +40,7 @@ class Login extends React.Component {
                       className={'login-form-container'}
                       xs={8}
                       md={6}>
-                    <form className={'login-form-content'} noValidate autoComplete="off">
+                    <form className={'login-form-content'} onSubmit={this.handleClick} noValidate autoComplete="off">
                         <TextField
                             id="standard-name"
                             label="Email"

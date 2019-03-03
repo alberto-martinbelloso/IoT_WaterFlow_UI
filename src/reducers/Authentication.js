@@ -36,6 +36,7 @@ export default function authentication(state = initialState, action) {
         case LOG_OUT:
             return {
                 ...state,
+                username: '',
                 authenticated: false
 
             };

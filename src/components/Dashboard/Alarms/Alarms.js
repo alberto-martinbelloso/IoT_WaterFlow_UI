@@ -37,7 +37,7 @@ class Alarms extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.alarms.alarms.map((row, id) => (
+                            {this.props.alarms.alarms.length > 0 && (this.props.alarms.alarms.map((row, id) => (
                                 <TableRow key={id} className={'alarm-row'}>
                                     <TableCell component="th" scope="row">
                                         {row.device_id}
@@ -46,7 +46,7 @@ class Alarms extends React.Component {
                                     <TableCell align="right">{row.timestamp}</TableCell>
                                     <TableCell align="right">{row.value}</TableCell>
                                 </TableRow>
-                            ))}
+                            )))}
                         </TableBody>
                     </Table>
                 </Paper>
