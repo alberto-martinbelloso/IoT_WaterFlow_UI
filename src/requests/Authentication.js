@@ -1,7 +1,13 @@
 import axios from 'axios'
 
+let baseUrl = '';
+
+if (process.env.NODE_ENV === 'production') {
+    baseUrl = process.env.USER_SERVICE
+}
+
 export const US = axios.create({
-    baseURL: '',
+    baseURL: baseUrl,
     timeout: 1000,
     headers: {'Content-Type': 'application/json'}
 });

@@ -17,6 +17,7 @@ import MenuAppBar from "./components/AppBar/AppBar";
 import './App.css'
 import Profile from "./components/Dashboard/Profile/Profile";
 import Bills from "./components/Dashboard/Bills/Bills";
+import Alarms from "./components/Dashboard/Alarms/Alarms";
 
 class App extends React.Component {
     constructor(props) {
@@ -41,6 +42,8 @@ class App extends React.Component {
                                    component={Profile}/>
                     <PrivateRoute authed={this.props.authentication.authenticated} path='/bills'
                                   component={Bills}/>
+                    <PrivateRoute authed={this.props.authentication.authenticated} path='/notifications'
+                                  component={Alarms}/>
                     <img src={window.location.origin +'/Logo_IT_University_of_Copenhagen.jpg'}  className={'image-responsive itu-logo'}/>
                 </MuiThemeProvider>
             </Router>)

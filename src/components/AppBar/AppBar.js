@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import { withRouter } from 'react-router-dom';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -11,6 +11,7 @@ import {withStyles} from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import './AppBar.css';
 
 import {connect} from "react-redux";
 import {Link} from 'react-router-dom'
@@ -85,12 +86,15 @@ class PrimaryAppBar extends React.Component {
         this.setState({mobileMoreAnchorEl: null});
     };
 
+    handleDashboard(){
+        this.props.history.push('/dashboard');
+    }
     render() {
+
         const {anchorEl, mobileMoreAnchorEl} = this.state;
         const {classes} = this.props;
         const isMenuOpen = Boolean(anchorEl);
         const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
         const renderMenu = (
             <Menu
                 anchorEl={anchorEl}
@@ -137,11 +141,13 @@ class PrimaryAppBar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar position="static"   title={ <img style={{marginTop: 10}} src="https://unsplash.it/40/40"/>}>
+                <AppBar position="static"  >
                     <Toolbar>
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                            Water Flow
-                        </Typography>
+                        <div className={'app-logo-container'}>
+                            <div  onClick={this.handleDashboard.bind(this)} className="btn btn-one">
+                                <span>Water Flow</span>
+                            </div>
+                        </div>
                         <div className={classes.grow}/>
                         {this.props.authentication.authenticated && (
                             <div>
@@ -149,7 +155,7 @@ class PrimaryAppBar extends React.Component {
                                 <div className={classes.sectionDesktop}>
                                     <IconButton color="inherit"
                                                 component={Link} to="/notifications">
-                                        <Badge badgeContent={17} color="secondary">
+                                        <Badge color="secondary">
                                             <NotificationsIcon/>
                                         </Badge>
                                     </IconButton>
@@ -188,4 +194,4 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps, null)(withStyles(styles)(PrimaryAppBar))
+export default withRouter(connect(mapStateToProps, null)(withStyles(styles)(PrimaryAppBar)))

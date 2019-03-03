@@ -1,0 +1,8 @@
+.alarms-container{
+    margin: 2rem;
+    padding: 1rem;
+}
+
+.alarm-row:hover{
+    background-color: rgba(69, 84, 88, 0.35);
+}
